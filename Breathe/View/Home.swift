@@ -26,6 +26,10 @@ struct Home: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: size.width, height: size.height)
                 .clipped()
+            //'overlay(alignment:content:)' is only available in iOS 15.0 or newer
+//                .overlay{
+//
+//                }
                 .ignoresSafeArea()
     }
 }
