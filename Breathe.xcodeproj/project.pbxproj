@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CABA2D7B28C3AE280054F9ED /* BreatheType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABA2D7A28C3AE280054F9ED /* BreatheType.swift */; };
+		CABA2D7D28C3AF860054F9ED /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABA2D7C28C3AF860054F9ED /* Home.swift */; };
 		DE19363F28C395E600EF8763 /* BreatheApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE19363E28C395E600EF8763 /* BreatheApp.swift */; };
 		DE19364128C395E600EF8763 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE19364028C395E600EF8763 /* ContentView.swift */; };
 		DE19364328C395E800EF8763 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE19364228C395E800EF8763 /* Assets.xcassets */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CABA2D7A28C3AE280054F9ED /* BreatheType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreatheType.swift; sourceTree = "<group>"; };
+		CABA2D7C28C3AF860054F9ED /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		DE19363B28C395E600EF8763 /* Breathe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Breathe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE19363E28C395E600EF8763 /* BreatheApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreatheApp.swift; sourceTree = "<group>"; };
 		DE19364028C395E600EF8763 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -72,6 +76,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CABA2D7628C3ACFC0054F9ED /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DE19364028C395E600EF8763 /* ContentView.swift */,
+				CABA2D7C28C3AF860054F9ED /* Home.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CABA2D7928C3ADE80054F9ED /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CABA2D7A28C3AE280054F9ED /* BreatheType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		DE19363228C395E600EF8763 = {
 			isa = PBXGroup;
 			children = (
@@ -95,8 +116,9 @@
 		DE19363D28C395E600EF8763 /* Breathe */ = {
 			isa = PBXGroup;
 			children = (
+				CABA2D7928C3ADE80054F9ED /* Model */,
 				DE19363E28C395E600EF8763 /* BreatheApp.swift */,
-				DE19364028C395E600EF8763 /* ContentView.swift */,
+				CABA2D7628C3ACFC0054F9ED /* View */,
 				DE19364228C395E800EF8763 /* Assets.xcassets */,
 				DE19364728C395E800EF8763 /* Info.plist */,
 				DE19364428C395E800EF8763 /* Preview Content */,
@@ -260,6 +282,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE19364128C395E600EF8763 /* ContentView.swift in Sources */,
+				CABA2D7B28C3AE280054F9ED /* BreatheType.swift in Sources */,
+				CABA2D7D28C3AF860054F9ED /* Home.swift in Sources */,
 				DE19363F28C395E600EF8763 /* BreatheApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
