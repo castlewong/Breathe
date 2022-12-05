@@ -11,11 +11,38 @@ struct Home: View {
     // MARK: view properties
     @State var currentType: BreatheType = sampleType[0]
     @Namespace var animation
+    // MARK: animation properties
+    @State var showBreatheView: Bool = false
+    @State var startAnimation: Bool = false
+    // MARK: timer properties
+    @State var timerCount: CGFloat = 0
+    @State var breatheAction: String = "Breathe In"
+    @State var count: Int = 0
     var body: some View {
         ZStack{
             Background()
             
             Content()
+        }
+        // MARK: Timer
+        .onReceive(Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()) { _ in
+            if showBreatheView{
+                // MARK: extra time for 0.1 delay
+                if timerCount >= 3.2{
+                    timerCount = 0
+                    breatheAction = (breatheAction == "Breathe Out" ? "Breathe In" : "Breathe Out")
+                    withAnimation(.easeInOut(duration: 3).delay(0.1)){
+                        startAnimation.toggle()
+                    }
+                } else {
+                    timerCount += 0.01
+                }
+                
+                count = 3 - Int(timerCount)
+            } else {
+                // MARK: Resetting
+                timerCount = 0
+            }
         }
     }
     
@@ -44,6 +71,7 @@ struct Home: View {
                 }
             }
             .padding()
+            .opacity(showBreatheView ? 0 : 1)
             
             // this is something
             GeometryReader{proxy in
@@ -56,8 +84,11 @@ struct Home: View {
                     Text("Breathe to reduce")
                         .font(.title3)
                         .foregroundColor(.white)
+                        .opacity(showBreatheView ? 0 : 1)
+
+                    
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 10){
+                        HStack(spacing: 12){
                             ForEach(sampleType){type in
                                 Text(type.title)
                                     .foregroundColor(currentType.id == type.id ? .black : .white)
@@ -69,18 +100,45 @@ struct Home: View {
                                             if currentType.id == type.id{
                                                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                                                     .fill(.white)
+                                                    .matchedGeometryEffect(id: "TAB", in: animation)
                                             } else {
                                                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                                                     .stroke(.white.opacity(0.4))
                                             }
                                         }
                                     }
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        withAnimation(.easeInOut){
+                                            currentType = type
+                                        }
+                                    }
                             }
                         }
+                        .padding()
+                        .padding(.leading, 25)
                     }
+                    .opacity(showBreatheView ? 0 : 1)
+                    
+                    Button(action: startBreathing){
+                        Text(showBreatheView ? "Finish" : "Start")
+                            .fontWeight(.semibold)
+                            .foregroundColor(showBreatheView ? .white.opacity(0.75) : .black)
+                            .padding(.vertical, 15)
+                            .frame(maxWidth: .infinity)
+                            .background {
+                                if showBreatheView{
+                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                        .stroke(.white.opacity(0.5))
+                                } else {
+                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                        .fill(.teal.gradient)
+                                }
+                            }
+                    }
+                    .padding()
                 }
                 .frame(width: size.width, height: size.height, alignment: .bottom)
-                
             }
         }
         .frame(maxHeight: .infinity, alignment: .top)
@@ -97,11 +155,21 @@ struct Home: View {
                     .fill(.teal.gradient.opacity(0.5))
                     .frame(width: 150, height: 150)
                 
-                // 150 / 2 ->
-                    .offset(x: 75)
+                // 150 / 2 -> 75
+                    .offset(x: startAnimation ? 0 : 75)
                     .rotationEffect(.init(degrees: Double(index) * 45))
+                    .rotationEffect(.init(degrees: startAnimation ? -45 : 0))
             }
         }
+        .scaleEffect(startAnimation ? 0.8 : 1)
+        .overlay(content: {
+            Text("\(count != 0 ? 3 : count)")
+                .font(.title)
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
+                .animation(.easeInOut, value: count)
+                .opacity(showBreatheView ? 1 : 0)
+        })
         .frame(height: (size.width - 40))
     }
     
@@ -138,6 +206,23 @@ struct Home: View {
     }
         .ignoresSafeArea()
 }
+    
+    // MARK: Breathing action
+    func startBreathing(){
+        withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)){
+            showBreatheView.toggle()
+        }
+        
+        if showBreatheView{
+            // MARK: breathe view animation
+            // Since we have max 3 secs of breathe
+            withAnimation(.easeInOut(duration: 3).delay(0.05)){
+                startAnimation = true
+            }
+        } else {
+            
+        }
+    }
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
