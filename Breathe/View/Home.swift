@@ -60,14 +60,18 @@ struct Home: View {
                         HStack(spacing: 10){
                             ForEach(sampleType){type in
                                 Text(type.title)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(currentType.id == type.id ? .black : .white)
                                     .padding(.vertical, 10)
                                     .padding(.horizontal, 15)
                                     .background {
                                         // MARK: matched geometry effect
                                         ZStack{
                                             if currentType.id == type.id{
-                                                
+                                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                                    .fill(.white)
+                                            } else {
+                                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                                    .stroke(.white.opacity(0.4))
                                             }
                                         }
                                     }
