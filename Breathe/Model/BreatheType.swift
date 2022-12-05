@@ -14,7 +14,7 @@ struct BreatheType: Identifiable,Hashable{
     var color: Color
 }
 let sampleType: [BreatheType] = [
-    .init(title: "Anger", color: Color("Mint")),
-    .init(title: "Irritation", color: Color("Brown")),
-    .init(title: "Sadness", color: Color("Purple"))
+    .init(title: "Anger", color: .mint),
+    .init(title: "Irritation", color: .brown),
+    .init(title: "Sadness", color: .purple)
 ]

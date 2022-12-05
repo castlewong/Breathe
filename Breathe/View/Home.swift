@@ -23,6 +23,15 @@ struct Home: View {
             Background()
             
             Content()
+            
+            Text(breatheAction)
+                .font(.largeTitle)
+                .foregroundColor(.white)
+                .frame(maxHeight: .infinity, alignment: .top)
+                .padding(.top, 50)
+                .opacity(showBreatheView ? 1 : 0)
+                .animation(.easeInOut(duration: 1), value: breatheAction)
+                .animation(.easeInOut(duration: 1), value: showBreatheView)
         }
         // MARK: Timer
         .onReceive(Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()) { _ in
@@ -34,6 +43,8 @@ struct Home: View {
                     withAnimation(.easeInOut(duration: 3).delay(0.1)){
                         startAnimation.toggle()
                     }
+                    // MARK: Haptic Feedback
+                    UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 } else {
                     timerCount += 0.01
                 }
@@ -132,7 +143,7 @@ struct Home: View {
                                         .stroke(.white.opacity(0.5))
                                 } else {
                                     RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                        .fill(.teal.gradient)
+                                        .fill(currentType.color.gradient)
                                 }
                             }
                     }
@@ -152,7 +163,7 @@ struct Home: View {
         ZStack{
             ForEach(1...8, id: \.self){ index in
                 Circle()
-                    .fill(.teal.gradient.opacity(0.5))
+                    .fill(currentType.color.gradient.opacity(0.5))
                     .frame(width: 150, height: 150)
                 
                 // 150 / 2 -> 75
@@ -163,9 +174,9 @@ struct Home: View {
         }
         .scaleEffect(startAnimation ? 0.8 : 1)
         .overlay(content: {
-            Text("\(count != 0 ? 3 : count)")
+            Text("\(count == 0 ? 1 : count)")
                 .font(.title)
-                .fontWeight(.semibold)
+                .fontWeight(.bold)
                 .foregroundColor(.white)
                 .animation(.easeInOut, value: count)
                 .opacity(showBreatheView ? 1 : 0)
@@ -184,6 +195,8 @@ struct Home: View {
                 .offset(y: -110)
                 .frame(width: size.width, height: size.height)
                 .clipped()
+            // MARK: Blurring While Breathing
+                .blur(radius: startAnimation ? 4 : 0, opaque: true)
                 .overlay{
                     ZStack{
                         Rectangle()
@@ -220,7 +233,9 @@ struct Home: View {
                 startAnimation = true
             }
         } else {
-            
+            withAnimation(.easeInOut(duration: 1.5)){
+                startAnimation = false
+            }
         }
     }
 
